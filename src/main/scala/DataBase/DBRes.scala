@@ -15,11 +15,13 @@ case class DBRes[A](run: Connection => A) {
   }
 
   def map[T](f: A => T): DBRes[T] = DBRes(conn => f(run(conn)))
-  def flatMap[T](f: A => DBRes[T]): DBRes[T] = DBRes(conn => f(run(conn)).run(conn))
+  def flatMap[T](f: A => DBRes[T]): DBRes[T] =
+    DBRes(conn => f(run(conn)).run(conn))
 }
 
 object DBRes {
-  def select[A](sql: String, params: Seq[Any])(read: ResultSet => A): DBRes[List[A]] = DBRes { conn =>
+  def select[A](sql: String, params: Seq[Any])(
+      read: ResultSet => A): DBRes[List[A]] = DBRes { conn =>
     val rs = prepare(sql, params, conn).executeQuery()
     readResultSet(rs, read)
   }
@@ -28,7 +30,9 @@ object DBRes {
     prepare(sql, params, conn).executeUpdate()
   }
 
-  private def prepare(sql: String, params: Seq[Any], conn: Connection): PreparedStatement = {
+  private def prepare(sql: String,
+                      params: Seq[Any],
+                      conn: Connection): PreparedStatement = {
     val ps = conn.prepareStatement(sql)
 
     for ((p, i) <- params.zipWithIndex)
@@ -39,7 +43,7 @@ object DBRes {
 
   private def readResultSet[A](rs: ResultSet, read: ResultSet => A): List[A] = {
     val buffer = new ListBuffer[A]
-    while(rs.next()) {
+    while (rs.next()) {
       buffer.append(read(rs))
     }
     buffer.toList

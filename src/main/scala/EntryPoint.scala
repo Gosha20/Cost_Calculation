@@ -4,8 +4,7 @@ import parser.Parser
 
 import scala.io.Source
 
-object EntryPoint extends App{
-
+object EntryPoint extends App {
 
   val uri = "jdbc:h2:~/test"
 
@@ -26,11 +25,9 @@ object EntryPoint extends App{
 //    }
 //  }
 
-
-val request = for {
-  allDB <- viewAllDb()
-  mostExpensive <- viewMostExpensive()
-} yield (allDB, mostExpensive)
+  val request = for {
+    allDB <- viewAllDb()
+    mostExpensive <- viewMostExpensive()
+  } yield (allDB, mostExpensive)
   println(request.execute(uri))
 }
-

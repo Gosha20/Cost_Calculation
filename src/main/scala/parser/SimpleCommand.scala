@@ -8,8 +8,9 @@ object SimpleCommand {
 
   case class Buy(place: String, thing: String, sum: Any) extends Command {
     override def execute(): DBRes[Unit] = {
-      DBRes.update("INSERT INTO costCalculator(place, thing, money) VALUES (?, ?, ?)",
-      List(place, thing, sum))
+      DBRes.update(
+        "INSERT INTO costCalculator(place, thing, money) VALUES (?, ?, ?)",
+        List(place, thing, sum))
 
     }
   }
