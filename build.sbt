@@ -1,9 +1,37 @@
-name := "Cost_Calculation"
+enablePlugins(JavaServerAppPackaging)
+
+name := "cost-management-service"
 
 version := "0.1"
 
-scalaVersion := "2.12.7"
-libraryDependencies += "org.tpolecat" %% "atto-core"  % "0.6.2-M1"
-libraryDependencies += "org.scalatest" % "scalatest_2.12" % "3.0.5" % "test"
-libraryDependencies += "info.mukel" %% "telegrambot4s" % "3.0.14"
-libraryDependencies += "com.h2database" % "h2" % "1.4.197"
+scalaVersion := "2.12.2"
+
+resolvers ++= Seq("Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
+                  Resolver.bintrayRepo("hseeberger", "maven"))
+
+lazy val doobieVersion   = "0.5.3"
+
+libraryDependencies ++= Seq(
+  "org.tpolecat" %% "doobie-core",
+  "org.tpolecat" %% "doobie-postgres",
+  "org.tpolecat" %% "doobie-hikari"
+).map(_ % doobieVersion)
+
+libraryDependencies ++= {
+  val AkkaVersion = "2.4.18"
+  val AkkaHttpVersion = "10.0.6"
+  val Json4sVersion = "3.5.2"
+  Seq(
+    "com.typesafe.akka" %% "akka-slf4j"      % AkkaVersion,
+    "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+    "ch.qos.logback" % "logback-classic" % "1.2.3",
+    "org.json4s"        %% "json4s-native"   % Json4sVersion,
+    "org.json4s"        %% "json4s-ext"      % Json4sVersion,
+    "de.heikoseeberger" %% "akka-http-json4s" % "1.16.0"
+  )
+}
+
+// Assembly settings
+mainClass in Global := Some("management.Main")
+
+assemblyJarName in assembly := "quiz-management-server.jar"

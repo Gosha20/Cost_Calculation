@@ -1,6 +1,0 @@
-
-/buy 500$
-/buy "Ashan" 500$
-
-/buy "Ashan Park" bread 500$
-/buy "Ashan" bread 50$

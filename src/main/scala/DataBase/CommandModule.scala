@@ -1,5 +1,0 @@
-package DataBase
-
-class CommandModule {
-
-}
