@@ -1,54 +1,28 @@
 package management.services
 
+import cats.effect.IO
 import management.entities.{Purchase, PurchaseCreate, PurchaseUpdate}
+import doobie.Transactor.Aux
 
 import scala.concurrent.{ExecutionContext, Future}
+import doobie.implicits._
 
-class PurchaseService(implicit val executionContext: ExecutionContext) {
+class PurchaseService(val xa:Aux[IO, Unit])(implicit val executionContext: ExecutionContext) {
 
   var purchases = Vector.empty[Purchase]
 
-  def createPurchase(purchase: PurchaseCreate): Future[Option[Int]] = Future {
+  def createPurchase(purchase: PurchaseCreate): Future[Option[Int]] = {
         val place = purchase.place.getOrElse("some where")
         val thing = purchase.thing.getOrElse("some thing")
         val money = purchase.money
-        val id = purchases.length
-        val newPurchase = Purchase(id, place, thing, money)
-        purchases = purchases :+ newPurchase
-        Some(newPurchase.id)
+
+        sql"""insert into buys (place, thing, money)
+         values (${place},${thing},${money}) returning id""".query[Int].option.transact(xa).unsafeToFuture()
     }
 
-  def getPurchase(id: Int): Future[Option[Purchase]] = Future {
-    purchases.find(_.id == id)
-  }
+  def getPurchase(id: Int): Future[Option[Purchase]] =
+    sql"""select place, thing, money, id from buys where buys.id = ${id}""".query[Purchase].option.transact(xa).unsafeToFuture()
 
-  //TODO
-
-//  def updatePurchase(id: Int, update: PurchaseUpdate): Future[Option[Purchase]] = {
-//
-//    def updateEntity(purchase: Purchase): Purchase = {
-//      val place = update.place.getOrElse(purchase.place)
-//      val thing = update.thing.getOrElse(purchase.thing)
-//      val money = update.money.getOrElse(purchase.money)
-//      Purchase(id, place, thing, money)
-//    }
-//
-//    getPurchase(id).flatMap {
-//      case None => Future {
-//        None
-//      } // No question found, nothing to update
-//      case Some(purchase) =>
-//        val updatedPurchase = updateEntity(purchase)
-//        deleteQuestion(id).flatMap { _ =>
-//          createPurchase(updatedPurchase).map(_ => Some(updatedPurchase))
-//        }
-//    }
-//  }
-
-  def deleteQuestion(id: Int): Future[Unit] = Future {
-    purchases = purchases.filterNot(_.id == id)
-  }
-
-
+  def getAll: Future[List[Purchase]] = sql"""select place, thing, money, id from buys""".query[Purchase].stream.compile.toList.transact(xa).unsafeToFuture()
 }
 

@@ -34,4 +34,4 @@ libraryDependencies ++= {
 // Assembly settings
 mainClass in Global := Some("management.Main")
 
-assemblyJarName in assembly := "quiz-management-server.jar"
+assemblyJarName in assembly := "cost-management-server.jar"
