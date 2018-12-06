@@ -1,0 +1,63 @@
+POST http://localhost:5000/account/register
+Content-Type: application/json
+
+{
+	"login": "test",
+     "name":"gosha",
+	"password": "simple"
+}
+
+###
+
+POST http://localhost:5000/account/login
+Content-Type: application/json
+
+{
+  "login": "test",
+  "password": "simple"
+}
+
+###
+POST http://localhost:5000/purchase/add
+Content-Type: application/json
+
+{
+   "place" : "moscow",
+  "thing": "space",
+  "money" : 50
+}
+
+###
+POST http://localhost:5000/purchase/add
+Content-Type: application/json
+
+{
+  "place" : "ekb",
+  "thing": "space",
+  "money" : 50
+}
+###
+POST http://localhost:5000/purchase/add
+Content-Type: application/json
+
+{
+  "place" : "asd",
+  "thing": "sdsa",
+  "money" : 50
+}
+###
+POST http://localhost:5000/purchase/add
+Content-Type: application/json
+Authorization: E823C0DB243B40B129E273310A2B9C0182DA461D-1544703651955-xtest
+
+{
+  "place" : "asda",
+  "thing": "spajjjjce",
+  "money" : 50
+}
+###
+
+GET http://localhost:5000/purchase/all
+Authorization: E823C0DB243B40B129E273310A2B9C0182DA461D-1544703651955-xtest
+
+###
