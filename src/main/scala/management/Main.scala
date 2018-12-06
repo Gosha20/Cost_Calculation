@@ -1,10 +1,12 @@
 package management
 import cats.effect.IO
+
 import scala.concurrent.duration._
 import akka.actor._
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
+import com.softwaremill.session.{SessionConfig, SessionManager}
 import doobie.util.transactor.Transactor
 import doobie.util.transactor.Transactor.Aux
 import com.typesafe.config.ConfigFactory
@@ -26,9 +28,10 @@ object Main extends App with RestInterface {
     "postgres",
     "postgres"
   )
-
-//  implicit val sessionManager: SessionManager[UserSession] =
-//    new SessionManager[UserSession](SessionConfig.fromConfig())
+  val sessionConfig = SessionConfig.default(
+    "")
+  implicit val sessionManager: SessionManager[UserSession] =
+    new SessionManager[UserSession](sessionConfig)
 
   val api = routes
 

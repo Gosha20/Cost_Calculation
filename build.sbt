@@ -8,7 +8,8 @@ scalaVersion := "2.12.2"
 
 resolvers ++= Seq("Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
                   Resolver.bintrayRepo("hseeberger", "maven"))
-
+libraryDependencies += "com.softwaremill.akka-http-session" %% "core" % "0.5.6"
+libraryDependencies += "com.typesafe.akka"          %% "akka-stream"    % "2.5.12"
 lazy val doobieVersion   = "0.5.3"
 
 libraryDependencies ++= Seq(
