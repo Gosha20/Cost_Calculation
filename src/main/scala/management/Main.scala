@@ -12,19 +12,19 @@ import doobie.util.transactor.Transactor
 import doobie.util.transactor.Transactor.Aux
 import com.typesafe.config.ConfigFactory
 import management.entities.UserSession.UserSession
-import doobie.implicits._
+import management.services.{AccountService, PurchaseService}
+
 import scala.concurrent.ExecutionContextExecutor
 
-object Main extends App with RestInterface {
+object Main extends App {
   val config = ConfigFactory.load()
   val host = config.getString("http.host")
   val port = config.getInt("http.port")
 
   implicit val system: ActorSystem = ActorSystem("cost-management-service")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
-
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
-  implicit val timeout: Timeout = Timeout(10 seconds)
+
 
   implicit val xa: Aux[IO, Unit] = Transactor.fromDriverManager[IO](
     "org.postgresql.Driver",
@@ -33,18 +33,7 @@ object Main extends App with RestInterface {
     "postgres"
   )
 
-  val sessionConfig = SessionConfig.default(
-    "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop")
-
-  implicit val sessionManager: SessionManager[UserSession] =
-    new SessionManager[UserSession](sessionConfig)
-
-  val routes: Route = purchaseRouters ~ accountResourse
-
-  val api = routes
-
-  Http().bindAndHandle(handler = api, interface = host, port = port) map { binding =>
-    println(s"REST interface bound to ${binding.localAddress}") } recover { case ex =>
-    println(s"REST interface could not bind to $host:$port", ex.getMessage)
-  }
+  implicit val accountService: AccountService = new AccountService
+  implicit val purchaseService: PurchaseService = new PurchaseService
+  new Server(host, port).start()
 }

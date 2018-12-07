@@ -6,7 +6,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import doobie.implicits._
 import management.entities.UserSession.{AuthFormat, RegisterFormat}
 
-class AccountService(val xa:Aux[IO, Unit])(implicit val executionContext: ExecutionContext) {
+class AccountService(implicit val executionContext: ExecutionContext, implicit val xa:Aux[IO, Unit]) {
 
   def login(authFormat: AuthFormat): Future[Option[String]] = {
     sql"""select login from users where login = ${authFormat.login} and password = ${authFormat.password}""".query[String].option.transact(xa).unsafeToFuture()

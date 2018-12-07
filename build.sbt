@@ -23,6 +23,9 @@ libraryDependencies ++= Seq(
   "org.tpolecat" %% "doobie-hikari"
 ).map(_ % doobieVersion)
 
+libraryDependencies ++= Seq("io.circe" %% "circe-core", "io.circe" %% "circe-generic", "io.circe" %% "circe-parser")
+  .map(_ % circeVersion)
+
 libraryDependencies ++= {
   val AkkaVersion = "2.4.18"
   val AkkaHttpVersion = "10.0.6"

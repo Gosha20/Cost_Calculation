@@ -1,54 +1,7 @@
-POST http://localhost:5000/account/register
-Content-Type: application/json
 
-{
-	"login": "test",
-     "name":"gosha",
-	"password": "simple"
-}
-
-###
-
-POST http://localhost:5000/account/login
-Content-Type: application/json
-
-{
-  "login": "test",
-  "password": "simple"
-}
-
-###
 POST http://localhost:5000/purchase/add
 Content-Type: application/json
-
-{
-   "place" : "moscow",
-  "thing": "space",
-  "money" : 50
-}
-
-###
-POST http://localhost:5000/purchase/add
-Content-Type: application/json
-
-{
-  "place" : "ekb",
-  "thing": "space",
-  "money" : 50
-}
-###
-POST http://localhost:5000/purchase/add
-Content-Type: application/json
-
-{
-  "place" : "asd",
-  "thing": "sdsa",
-  "money" : 50
-}
-###
-POST http://localhost:5000/purchase/add
-Content-Type: application/json
-Authorization: E823C0DB243B40B129E273310A2B9C0182DA461D-1544703651955-xtest
+Authorization: B2F8DA2204511F448318F5D3C56B52B05F1DA1B5-1544776249434-xtest
 
 {
   "place" : "asda",
@@ -57,7 +10,18 @@ Authorization: E823C0DB243B40B129E273310A2B9C0182DA461D-1544703651955-xtest
 }
 ###
 
-GET http://localhost:5000/purchase/all
-Authorization: E823C0DB243B40B129E273310A2B9C0182DA461D-1544703651955-xtest
+POST http://localhost:5000/purchase/add
+Content-Type: application/json
+Authorization: 163796DE27A1EE3ED5498AFAFB35A96B20299F84-1544776757308-xtest1
+
+{
+"place" : "fff",
+"thing": "fff",
+"money" : 5505
+}
+###
+
+GET http://localhost:5000/purchase/9
+Authorization: 4E6EABE408F17DC3FB50070D026AE61B3DE1DCBE-1544778872786-xtest
 
 ###

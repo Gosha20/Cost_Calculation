@@ -1,0 +1,41 @@
+POST http://localhost:5000/account/register
+Content-Type: application/json
+
+{
+  "login": "test",
+  "name":"gosha",
+  "password": "simple"
+}
+
+###
+
+POST http://localhost:5000/account/register
+Content-Type: application/json
+
+{
+  "login": "test1",
+  "name":"pep",
+  "password": "notsimple"
+}
+
+###
+
+POST http://localhost:5000/account/login
+Content-Type: application/json
+
+{
+  "login": "test",
+  "password": "simple"
+}
+
+###
+
+POST http://localhost:5000/account/login
+Content-Type: application/json
+
+{
+  "login": "test1",
+  "password": "notsimple"
+}
+
+###

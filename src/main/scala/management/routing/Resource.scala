@@ -7,7 +7,7 @@ import akka.http.scaladsl.model.headers.Location
 import akka.http.scaladsl.server.{Directives, Route}
 import management.serializers.JsonSupport
 
-trait MyResource extends Directives with JsonSupport {
+trait Resource extends Directives with JsonSupport {
 
   implicit def executionContext: ExecutionContext
 

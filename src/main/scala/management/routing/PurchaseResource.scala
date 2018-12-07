@@ -1,18 +1,14 @@
 package management.routing
 
-import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Route
 import com.softwaremill.session.SessionDirectives.{setSession, touchRequiredSession}
 import com.softwaremill.session.SessionManager
 import com.softwaremill.session.SessionOptions.{oneOff, usingHeaders}
 import management.entities.PurchaseCreate
-import management.entities.UserSession.{AuthFormat, RegisterFormat, UserSession}
+import management.entities.UserSession.UserSession
 import management.services.PurchaseService
 
-import scala.collection.mutable
-import scala.concurrent.Future
-
-trait PurchaseResource extends MyResource {
+trait PurchaseResource extends Resource {
   implicit val sessionManager: SessionManager[UserSession]
   val purchaseService: PurchaseService
 
@@ -28,7 +24,7 @@ trait PurchaseResource extends MyResource {
       } ~
         path(IntNumber) { id =>
           get {
-            complete(purchaseService.getPurchase(id))
+            complete(purchaseService.getPurchase(id, session.login))
           }
         } ~
         (path("all") & get) {

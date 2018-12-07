@@ -9,7 +9,7 @@ import management.entities.UserSession.{AuthFormat, RegisterFormat, UserSession}
 import management.services.AccountService
 
 
-trait AccountResource extends MyResource {
+trait AccountResource extends Resource {
   implicit val sessionManager: SessionManager[UserSession]
   val accountService: AccountService
 
