@@ -1,0 +1,19 @@
+
+CREATE TABLE public.buys
+(
+    place character varying COLLATE NOT NULL,
+    thing character varying COLLATE  NOT NULL,
+    money double precision NOT NULL,
+    id integer NOT NULL DEFAULT nextval('buys_id_seq'::regclass),
+    login character varying COLLATE NOT NULL,
+    CONSTRAINT buys_pkey PRIMARY KEY (id)
+)
+
+
+CREATE TABLE users
+(
+    login character varying COLLATE NOT NULL,
+    password character varying COLLATE  NOT NULL,
+    name character varying COLLATE NOT NULL,
+    CONSTRAINT users_pkey PRIMARY KEY (login)
+)
