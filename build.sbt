@@ -9,9 +9,6 @@ lazy val doobieVersion   = "0.5.3"
 lazy val circeVersion    = "0.9.3"
 scalaVersion := "2.12.2"
 
-libraryDependencies ++= Seq("io.circe" %% "circe-core", "io.circe" %% "circe-generic", "io.circe" %% "circe-parser")
-  .map(_ % circeVersion)
-
 resolvers ++= Seq("Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
                   Resolver.bintrayRepo("hseeberger", "maven"))
 libraryDependencies += "com.softwaremill.akka-http-session" %% "core" % "0.5.6"

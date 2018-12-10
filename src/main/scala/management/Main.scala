@@ -19,9 +19,9 @@ object Main extends App {
 
   implicit val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
     "org.postgresql.Driver",
-    "jdbc:postgresql://localhost:5432/test",
-    "postgres",
-    "postgres"
+    config.getString("db.url"),
+    config.getString("db.user"),
+    config.getString("db.password")
   )
 
   implicit val accountService: AccountService = new AccountService

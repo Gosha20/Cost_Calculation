@@ -20,8 +20,7 @@ class Server(host: String, port: Int)(
 
   def start(): Unit = startServer(host, port, system)
 
-  val sessionConfig = SessionConfig.default(
-    "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop")
+  val sessionConfig = SessionConfig.fromConfig()
 
   implicit val sessionManager: SessionManager[UserSession] =
     new SessionManager[UserSession](sessionConfig)
