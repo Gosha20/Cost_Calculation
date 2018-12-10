@@ -13,15 +13,15 @@ trait AccountResource extends Resource {
   implicit val sessionManager: SessionManager[UserSession]
   val accountService: AccountService
 
-  def accountResourse: Route = pathPrefix("account") {
+  def accountRoutes: Route = pathPrefix("account") {
       (path("register") & post) {
         entity(as[RegisterFormat]){registerFormat =>
-          complete(accountService.registration(registerFormat))
+          complete(accountService.registration(registerFormat).unsafeToFuture())
         }
       }~
       (path("login") & post) {
         entity(as[AuthFormat]) { authFormat =>
-          onSuccess(accountService.login(authFormat)) {
+          onSuccess(accountService.login(authFormat).unsafeToFuture()) {
             case Some(login) => setSession(oneOff, usingHeaders, UserSession(login)) {
               complete(HttpResponse(StatusCodes.OK, entity = sessionManager.clientSessionManager.createHeader(UserSession(login)).value))
             }

@@ -1,5 +1,5 @@
 
-CREATE TABLE public.buys
+CREATE TABLE buys
 (
     place character varying COLLATE NOT NULL,
     thing character varying COLLATE  NOT NULL,

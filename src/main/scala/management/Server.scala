@@ -9,11 +9,14 @@ import management.services.{AccountService, PurchaseService}
 
 import scala.concurrent.{ExecutionContext}
 
-class Server(host:String, port:Int)(implicit system: ActorSystem,
-             implicit val accountService: AccountService,
-             implicit val purchaseService: PurchaseService,
-             implicit val executionContext: ExecutionContext)
-  extends HttpApp with PurchaseResource with AccountResource{
+class Server(host: String, port: Int)(
+    implicit system: ActorSystem,
+    implicit val accountService: AccountService,
+    implicit val purchaseService: PurchaseService,
+    implicit val executionContext: ExecutionContext)
+    extends HttpApp
+    with PurchaseResource
+    with AccountResource {
 
   def start(): Unit = startServer(host, port, system)
 
@@ -23,5 +26,5 @@ class Server(host:String, port:Int)(implicit system: ActorSystem,
   implicit val sessionManager: SessionManager[UserSession] =
     new SessionManager[UserSession](sessionConfig)
 
-  override protected def routes: Route = purchaseRouters ~ accountResourse
+  override protected def routes: Route = purchaseRoutes ~ accountRoutes
 }

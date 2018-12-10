@@ -12,24 +12,24 @@ trait PurchaseResource extends Resource {
   implicit val sessionManager: SessionManager[UserSession]
   val purchaseService: PurchaseService
 
-  def purchaseRouters: Route = touchRequiredSession(oneOff, usingHeaders) { session =>
+  def purchaseRoutes: Route = touchRequiredSession(oneOff, usingHeaders) { session =>
     pathPrefix("purchase") {
       (path("add") & post) {
         entity(as[PurchaseCreate]) { purchase => {
           completeWithLocationHeader(
-            resourceId = purchaseService.createPurchase(purchase, session.login),
+            resourceId = purchaseService.createPurchase(purchase, session.login).unsafeToFuture(),
             ifDefinedStatus = 201, ifEmptyStatus = 409)
         }
         }
       } ~
         path(IntNumber) { id =>
           get {
-            complete(purchaseService.getPurchase(id, session.login))
+            complete(purchaseService.getPurchase(id, session.login).unsafeToFuture)
           }
         } ~
         (path("all") & get) {
           get {
-            complete(purchaseService.getAll(session.login))
+            complete(purchaseService.getAll(session.login).unsafeToFuture)
           }
         }
     }
